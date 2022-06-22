@@ -7,7 +7,9 @@ public class ESTOESGOD : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
+        // EL SEBAS ESTÁ FLIPANDO
+
     }
 
     // Update is called once per frame
