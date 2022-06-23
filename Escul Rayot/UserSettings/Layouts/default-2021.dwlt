@@ -48,7 +48,11 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
+<<<<<<< HEAD
   controlID: 95
+=======
+  controlID: 88
+>>>>>>> 8d74fc42cad1df0acd58a09ced41a642cc43e49d
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -92,10 +96,17 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
+<<<<<<< HEAD
     width: 379
     height: 573
   m_MinSize: {x: 201, y: 221}
   m_MaxSize: {x: 4001, y: 4021}
+=======
+    width: 303.2
+    height: 441.6
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
+>>>>>>> 8d74fc42cad1df0acd58a09ced41a642cc43e49d
   m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 15}
@@ -223,7 +234,11 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
+<<<<<<< HEAD
   controlID: 40
+=======
+  controlID: 89
+>>>>>>> 8d74fc42cad1df0acd58a09ced41a642cc43e49d
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -248,7 +263,11 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
+<<<<<<< HEAD
   controlID: 41
+=======
+  controlID: 90
+>>>>>>> 8d74fc42cad1df0acd58a09ced41a642cc43e49d
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -354,7 +373,12 @@ MonoBehaviour:
   m_LastFolders:
   - Assets
   m_LastFoldersGridSize: -1
+<<<<<<< HEAD
   m_LastProjectPath: C:\Users\Mariela\Desktop\Leonel\CACA\School_Riot\Escul Rayot
+=======
+  m_LastProjectPath: C:\Users\GABRIEL\OneDrive\Escritorio\School_Riot\School_Riot\Escul
+    Rayot
+>>>>>>> 8d74fc42cad1df0acd58a09ced41a642cc43e49d
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
@@ -519,7 +543,11 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: aa250000
       m_LastClickedID: 0
+<<<<<<< HEAD
       m_ExpandedIDs: 2efbffff
+=======
+      m_ExpandedIDs: 24fbffff
+>>>>>>> 8d74fc42cad1df0acd58a09ced41a642cc43e49d
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
