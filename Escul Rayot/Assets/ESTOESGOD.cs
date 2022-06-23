@@ -8,7 +8,7 @@ public class ESTOESGOD : MonoBehaviour
     void Start()
     {
 
-        // EL SEBAS ESTÁ FLIPANDO
+        // PUTO EL QUE LO LEA JIJIJIJA
 
     }
 
@@ -17,4 +17,5 @@ public class ESTOESGOD : MonoBehaviour
     {
         
     }
+
 }
