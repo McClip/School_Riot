@@ -8,7 +8,7 @@ public class ESTOESGOD : MonoBehaviour
     void Start()
     {
 
-        // QUE LOL
+        // Vamos carajo
 
     }
 
