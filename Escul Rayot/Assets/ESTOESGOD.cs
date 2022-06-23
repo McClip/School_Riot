@@ -8,7 +8,7 @@ public class ESTOESGOD : MonoBehaviour
     void Start()
     {
 
-        // Esto es un push desde vscode
+        // Vamos carajo
 
     }
 
