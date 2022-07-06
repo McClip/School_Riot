@@ -5,6 +5,7 @@ using UnityEngine;
 public class Character_Controller : MonoBehaviour
 {
     //variables:
+    public Animator An;
     Rigidbody2D Rb;
     public SpriteRenderer Sr;
     public float velocidad = 2;
@@ -31,5 +32,19 @@ public class Character_Controller : MonoBehaviour
         {
             Rb.velocity = new Vector2(0, Rb.velocity.y);
         }
+
+        //golpe
+
+        if (Input.GetKey(KeyCode.H))
+        {
+            StartCoroutine("duracion");
+        }
+    }
+
+    IEnumerator duracion()
+    {
+        An.SetBool("punch", true);
+        yield return new WaitForSeconds(0.96f);
+        An.SetBool("punch", false);
     }
 }
