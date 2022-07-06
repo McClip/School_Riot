@@ -7,6 +7,9 @@ public class Character_Controller : MonoBehaviour
     //variables:
     public Animator An;
     Rigidbody2D Rb;
+    public bool Salto_mejorado;
+    public float Velocidad_C=0.5f;
+    public float Velocidad_S=1f;
     public SpriteRenderer Sr;
     public float velocidad = 2;
     public float velocidad_altura = 2;
@@ -43,9 +46,20 @@ public class Character_Controller : MonoBehaviour
 
         //Salto
 
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W)&&(CheckGround.Suelo==true))
         {
-            Rb.velocity = new Vector2(Rb.velocidad.x, velocidad_altura);
+            Rb.velocity = new Vector2(Rb.velocity.x, velocidad_altura);
+        }
+        if (Salto_mejorado==true)
+        {
+            if (Rb.velocity.y<0)
+            {
+                Rb.velocity += Vector2.up*Physics2D.gravity.y*Velocidad_C*Time.deltaTime;
+            }
+            else if ((Rb.velocity.y > 0)&& !Input.GetKey(KeyCode.W))
+            {
+                Rb.velocity += Vector2.up * Physics2D.gravity.y * Velocidad_S * Time.deltaTime;
+            }
         }
     }
 

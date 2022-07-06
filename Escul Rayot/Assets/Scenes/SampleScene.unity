@@ -292,8 +292,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   An: {fileID: 87295629}
+  Salto_mejorado: 1
+  Velocidad_C: 0.5
+  Velocidad_S: 1
   Sr: {fileID: 87295630}
   velocidad: 3
+  velocidad_altura: 8
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -698,7 +702,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.014889192, y: -0.16872744}
