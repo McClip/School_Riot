@@ -7,7 +7,7 @@ public class Character_Controller : MonoBehaviour
     //variables:
     Rigidbody2D Rb;
     public SpriteRenderer Sr;
-    float velocidad = 2;
+    public float velocidad = 2;
     // Start is called before the first frame update
     void Start()
     {
