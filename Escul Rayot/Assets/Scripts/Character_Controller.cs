@@ -46,15 +46,15 @@ public class Character_Controller : MonoBehaviour
 
         //Salto
 
-        if (Input.GetKey(KeyCode.W)&&(CheckGround.Suelo==true))
+        if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space)) && (CheckGround.Suelo == true))
         {
             Rb.velocity = new Vector2(Rb.velocity.x, velocidad_altura);
         }
-        if (Salto_mejorado==true)
+        if (Salto_mejorado == true)
         {
             if (Rb.velocity.y<0)
             {
-                Rb.velocity += Vector2.up*Physics2D.gravity.y*Velocidad_C*Time.deltaTime;
+                Rb.velocity += Vector2.up * Physics2D.gravity.y * Velocidad_C * Time.deltaTime;
             }
             else if ((Rb.velocity.y > 0)&& !Input.GetKey(KeyCode.W))
             {
