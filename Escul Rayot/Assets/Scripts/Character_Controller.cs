@@ -9,6 +9,7 @@ public class Character_Controller : MonoBehaviour
     Rigidbody2D Rb;
     public SpriteRenderer Sr;
     public float velocidad = 2;
+    public float velocidad_altura = 2;
     // Start is called before the first frame update
     void Start()
     {
@@ -38,6 +39,13 @@ public class Character_Controller : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.H))
         {
             StartCoroutine("duracion");
+        }
+
+        //Salto
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            Rb.velocity = new Vector2(Rb.velocidad.x, velocidad_altura);
         }
     }
 
