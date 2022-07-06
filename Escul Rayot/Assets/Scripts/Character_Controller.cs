@@ -18,12 +18,12 @@ public class Character_Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.D)) 
+        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)) 
         {
             Rb.velocity = new Vector2(velocidad,Rb.velocity.y);
             Sr.flipX = false;
         }
-        else if (Input.GetKey(KeyCode.A))
+        else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             Rb.velocity = new Vector2(-velocidad, Rb.velocity.y);
             Sr.flipX = true;
@@ -35,7 +35,7 @@ public class Character_Controller : MonoBehaviour
 
         //golpe
 
-        if (Input.GetKey(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.H))
         {
             StartCoroutine("duracion");
         }
@@ -44,7 +44,9 @@ public class Character_Controller : MonoBehaviour
     IEnumerator duracion()
     {
         An.SetBool("punch", true);
+
         yield return new WaitForSeconds(0.96f);
+
         An.SetBool("punch", false);
     }
 }
