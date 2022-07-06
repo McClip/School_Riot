@@ -37,7 +37,7 @@ public class Character_Controller : MonoBehaviour
             Rb.velocity = new Vector2(0, Rb.velocity.y);
         }
 
-        //golpe
+        //Golpe
 
         if (Input.GetKeyDown(KeyCode.H))
         {
@@ -52,11 +52,11 @@ public class Character_Controller : MonoBehaviour
         }
         if (Salto_mejorado == true)
         {
-            if (Rb.velocity.y<0)
+            if (Rb.velocity.y < 0)
             {
                 Rb.velocity += Vector2.up * Physics2D.gravity.y * Velocidad_C * Time.deltaTime;
             }
-            else if ((Rb.velocity.y > 0)&& !Input.GetKey(KeyCode.W))
+            else if ((Rb.velocity.y > 0) && (!Input.GetKey(KeyCode.W) || !Input.GetKey(KeyCode.Space)))
             {
                 Rb.velocity += Vector2.up * Physics2D.gravity.y * Velocidad_S * Time.deltaTime;
             }
