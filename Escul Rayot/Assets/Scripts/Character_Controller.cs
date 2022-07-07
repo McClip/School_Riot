@@ -39,9 +39,11 @@ public class Character_Controller : MonoBehaviour
 
         //Golpe
 
-        if (Input.GetKey(KeyCode.H))
+        if (Input.GetKey(KeyCode.H) /*&& ((CheckGround.Suelo == true)) || (CheckGround.Suelo == false)*/)
         {
-            StartCoroutine("duracion");
+            StartCoroutine(duracion(0.42f));
+
+            //An.SetBool("Jump", false);
         }
 
         //Salto
@@ -50,6 +52,37 @@ public class Character_Controller : MonoBehaviour
         {
             Rb.velocity = new Vector2(Rb.velocity.x, velocidad_altura);
         }
+
+        if (CheckGround.Suelo == false)
+        {
+            An.SetBool("Jump", true);
+
+            //An.SetBool("punch", true);
+
+            if (Input.GetKey(KeyCode.H))
+            {
+                An.SetBool("Jump", false);
+
+                //An.SetBool("punch", true);
+
+                StartCoroutine(duracion(0.47f));
+            }
+
+            //else
+            //{
+            //    An.SetBool("Jump", true);
+
+            //    An.SetBool("punch", false);
+            //}
+        }
+
+        else if (CheckGround.Suelo)
+        {
+            An.SetBool("Jump", false);
+
+            //An.SetBool("punch", true);
+        }
+
         if (Salto_mejorado == true)
         {
             if (Rb.velocity.y < 0)
@@ -63,11 +96,11 @@ public class Character_Controller : MonoBehaviour
         }
     }
 
-    IEnumerator duracion()
+    IEnumerator duracion(float tiempo)
     {
         An.SetBool("punch", true);
 
-        yield return new WaitForSeconds(0.42f);
+        yield return new WaitForSeconds(tiempo);
 
         An.SetBool("punch", false);
     }
