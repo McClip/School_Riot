@@ -6,13 +6,21 @@ public class Character_Controller : MonoBehaviour
 {
     //variables:
     public Animator An;
+
     Rigidbody2D Rb;
+
     public bool Salto_mejorado;
+
     public float Velocidad_C=0.5f;
+
     public float Velocidad_S=1f;
+
     public SpriteRenderer Sr;
+
     public float velocidad = 2;
+
     public float velocidad_altura = 2;
+
     // Start is called before the first frame update
     void Start()
     {
