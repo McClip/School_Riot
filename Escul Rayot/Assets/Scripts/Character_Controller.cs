@@ -67,7 +67,7 @@ public class Character_Controller : MonoBehaviour
     {
         An.SetBool("punch", true);
 
-        yield return new WaitForSeconds(0.96f);
+        yield return new WaitForSeconds(0.42f);
 
         An.SetBool("punch", false);
     }
