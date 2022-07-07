@@ -39,7 +39,7 @@ public class Character_Controller : MonoBehaviour
 
         //Golpe
 
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKey(KeyCode.H))
         {
             StartCoroutine("duracion");
         }
