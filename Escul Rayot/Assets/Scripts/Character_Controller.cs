@@ -26,15 +26,47 @@ public class Character_Controller : MonoBehaviour
         {
             Rb.velocity = new Vector2(velocidad,Rb.velocity.y);
             Sr.flipX = false;
+            An.SetBool("Run", true);
+
+            if (Input.GetKey(KeyCode.H))
+            {
+                An.SetBool("Run", false);
+
+                //An.SetBool("punch", true);
+
+                StartCoroutine(duracion(0.47f));
+            }
         }
+
         else if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             Rb.velocity = new Vector2(-velocidad, Rb.velocity.y);
             Sr.flipX = true;
+            An.SetBool("Run", true);
+
+            if (Input.GetKey(KeyCode.H))
+            {
+                An.SetBool("Run", false);
+
+                //An.SetBool("punch", true);
+
+                StartCoroutine(duracion(0.47f));
+            }
         }
+
         else
         {
             Rb.velocity = new Vector2(0, Rb.velocity.y);
+            An.SetBool("Run", false);
+
+            if (Input.GetKey(KeyCode.H))
+            {
+                An.SetBool("Run", false);
+
+                //An.SetBool("punch", true);
+
+                StartCoroutine(duracion(0.47f));
+            }
         }
 
         //Golpe
@@ -56,6 +88,8 @@ public class Character_Controller : MonoBehaviour
         if (CheckGround.Suelo == false)
         {
             An.SetBool("Jump", true);
+
+            An.SetBool("Run", false);
 
             //An.SetBool("punch", true);
 
