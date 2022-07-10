@@ -168,6 +168,8 @@ public class Character_Controller : MonoBehaviour
                 return;
             }
 
+            Gizmos.color = Color.green;
+
             Gizmos.DrawWireSphere(ataque.position, rangogolpe);
         }
     }
