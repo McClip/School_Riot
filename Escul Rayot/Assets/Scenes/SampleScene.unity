@@ -229,6 +229,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1932466692}
+  - {fileID: 2043532313}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -298,6 +299,12 @@ MonoBehaviour:
   Sr: {fileID: 87295630}
   velocidad: 6
   velocidad_altura: 8
+  player: {fileID: 87295628}
+  rangogolpe: 0.5
+  ataque: {fileID: 2043532313}
+  enemigos:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,8 +402,8 @@ GameObject:
   - component: {fileID: 1525048550}
   - component: {fileID: 1525048553}
   - component: {fileID: 1525048554}
-  m_Layer: 0
-  m_Name: pintudo (2)_0
+  m_Layer: 3
+  m_Name: Rene Pito
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -718,3 +725,34 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.13215241, y: 0.01723066}
   m_EdgeRadius: 0
+--- !u!1 &2043532312
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2043532313}
+  m_Layer: 0
+  m_Name: Punto de Ataque
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2043532313
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2043532312}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.174, y: -0.025, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 87295631}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

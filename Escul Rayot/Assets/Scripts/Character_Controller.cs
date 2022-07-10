@@ -5,21 +5,34 @@ using UnityEngine;
 public class Character_Controller : MonoBehaviour
 {
     //variables:
+
+    //Movimiento:
+
     public Animator An;
 
     Rigidbody2D Rb;
 
     public bool Salto_mejorado;
 
-    public float Velocidad_C=0.5f;
+    public float Velocidad_C = 0.5f;
 
-    public float Velocidad_S=1f;
+    public float Velocidad_S = 1f;
 
     public SpriteRenderer Sr;
 
     public float velocidad = 2;
 
     public float velocidad_altura = 2;
+
+    //Ataque:
+
+    public GameObject player;
+
+    public float rangogolpe = 0.5f;
+
+    public Transform ataque;
+
+    public LayerMask enemigos;
 
     // Start is called before the first frame update
     void Start()
@@ -63,6 +76,16 @@ public class Character_Controller : MonoBehaviour
             {
                 Combate("Run", false, 0.47f);
             }
+        }
+
+        if (Sr.flipX == true)
+        {
+            ataque.transform.position = new Vector2(player.transform.position.x - 1.725f, ataque.transform.position.y);
+        }
+
+        else
+        {
+            ataque.transform.position = new Vector2(player.transform.position.x + 1.725f, ataque.transform.position.y);
         }
 
         //Golpe
@@ -116,6 +139,15 @@ public class Character_Controller : MonoBehaviour
         An.SetBool(parametro, estado);
 
         StartCoroutine(duracion(temp));
+
+        //Golpe:
+
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(ataque.position, rangogolpe, enemigos);
+
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            Debug.Log("Golpeé al " + enemy.name);
+        }
     }
 
     IEnumerator duracion(float tiempo)
@@ -125,5 +157,18 @@ public class Character_Controller : MonoBehaviour
         yield return new WaitForSeconds(tiempo);
 
         An.SetBool("punch", false);
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        if (Input.GetKey(KeyCode.H) == true)
+        {
+            if (ataque == null)
+            {
+                return;
+            }
+
+            Gizmos.DrawWireSphere(ataque.position, rangogolpe);
+        }
     }
 }
