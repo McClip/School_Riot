@@ -296,7 +296,7 @@ MonoBehaviour:
   Velocidad_C: 0.5
   Velocidad_S: 1
   Sr: {fileID: 87295630}
-  velocidad: 3
+  velocidad: 6
   velocidad_altura: 8
 --- !u!1 &519420028
 GameObject:

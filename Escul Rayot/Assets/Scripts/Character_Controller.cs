@@ -38,11 +38,7 @@ public class Character_Controller : MonoBehaviour
 
             if (Input.GetKey(KeyCode.H))
             {
-                An.SetBool("Run", false);
-
-                //An.SetBool("punch", true);
-
-                StartCoroutine(duracion(0.47f));
+                Combate("Run", false, 0.47f);
             }
         }
 
@@ -54,11 +50,7 @@ public class Character_Controller : MonoBehaviour
 
             if (Input.GetKey(KeyCode.H))
             {
-                An.SetBool("Run", false);
-
-                //An.SetBool("punch", true);
-
-                StartCoroutine(duracion(0.47f));
+                Combate("Run", false, 0.47f);
             }
         }
 
@@ -69,21 +61,15 @@ public class Character_Controller : MonoBehaviour
 
             if (Input.GetKey(KeyCode.H))
             {
-                An.SetBool("Run", false);
-
-                //An.SetBool("punch", true);
-
-                StartCoroutine(duracion(0.47f));
+                Combate("Run", false, 0.47f);
             }
         }
 
         //Golpe
 
-        if (Input.GetKey(KeyCode.H) /*&& ((CheckGround.Suelo == true)) || (CheckGround.Suelo == false)*/)
+        if (Input.GetKey(KeyCode.H))
         {
             StartCoroutine(duracion(0.42f));
-
-            //An.SetBool("Jump", false);
         }
 
         //Salto
@@ -99,30 +85,15 @@ public class Character_Controller : MonoBehaviour
 
             An.SetBool("Run", false);
 
-            //An.SetBool("punch", true);
-
             if (Input.GetKey(KeyCode.H))
             {
-                An.SetBool("Jump", false);
-
-                //An.SetBool("punch", true);
-
-                StartCoroutine(duracion(0.47f));
+                Combate("Jump", false, 0.47f);
             }
-
-            //else
-            //{
-            //    An.SetBool("Jump", true);
-
-            //    An.SetBool("punch", false);
-            //}
         }
 
         else if (CheckGround.Suelo)
         {
             An.SetBool("Jump", false);
-
-            //An.SetBool("punch", true);
         }
 
         if (Salto_mejorado == true)
@@ -136,6 +107,15 @@ public class Character_Controller : MonoBehaviour
                 Rb.velocity += Vector2.up * Physics2D.gravity.y * Velocidad_S * Time.deltaTime;
             }
         }
+    }
+
+    public void Combate(string parametro, bool estado, float temp)
+    {
+        //Animacion:
+
+        An.SetBool(parametro, estado);
+
+        StartCoroutine(duracion(temp));
     }
 
     IEnumerator duracion(float tiempo)
