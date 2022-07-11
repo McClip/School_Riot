@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class Character_Controller : MonoBehaviour
 {
+    [Header("Variables")]
+
     //variables:
+
+    [Header("Variables de Movimiento")]
 
     //Movimiento:
 
@@ -24,13 +28,15 @@ public class Character_Controller : MonoBehaviour
 
     public float velocidad_altura = 2;
 
+    [Header("Variables de Ataque")]
+
     //Ataque:
 
     public GameObject player;
 
-    public float rangogolpe = 0.5f;
+    public float rango_golpe = 0.5f;
 
-    public Transform ataque;
+    public Transform punto_ataque;
 
     public LayerMask enemigos;
 
@@ -51,7 +57,7 @@ public class Character_Controller : MonoBehaviour
 
             if (Input.GetKey(KeyCode.H))
             {
-                Combate("Run", false, 0.47f);
+                Combate("Run", false, 0.235f);
             }
         }
 
@@ -63,7 +69,7 @@ public class Character_Controller : MonoBehaviour
 
             if (Input.GetKey(KeyCode.H))
             {
-                Combate("Run", false, 0.47f);
+                Combate("Run", false, 0.235f);
             }
         }
 
@@ -74,18 +80,8 @@ public class Character_Controller : MonoBehaviour
 
             if (Input.GetKey(KeyCode.H))
             {
-                Combate("Run", false, 0.47f);
+                Combate("Run", false, 0.235f);
             }
-        }
-
-        if (Sr.flipX == true)
-        {
-            ataque.transform.position = new Vector2(player.transform.position.x - 1.725f, ataque.transform.position.y);
-        }
-
-        else
-        {
-            ataque.transform.position = new Vector2(player.transform.position.x + 1.725f, ataque.transform.position.y);
         }
 
         //Golpe
@@ -93,6 +89,16 @@ public class Character_Controller : MonoBehaviour
         if (Input.GetKey(KeyCode.H))
         {
             StartCoroutine(duracion(0.42f));
+        }
+
+        if (Sr.flipX == true)
+        {
+            punto_ataque.transform.position = new Vector2(player.transform.position.x - 1.725f, punto_ataque.transform.position.y);
+        }
+
+        else
+        {
+            punto_ataque.transform.position = new Vector2(player.transform.position.x + 1.725f, punto_ataque.transform.position.y);
         }
 
         //Salto
@@ -110,7 +116,7 @@ public class Character_Controller : MonoBehaviour
 
             if (Input.GetKey(KeyCode.H))
             {
-                Combate("Jump", false, 0.47f);
+                Combate("Jump", false, 0.235f);
             }
         }
 
@@ -142,7 +148,7 @@ public class Character_Controller : MonoBehaviour
 
         //Golpe:
 
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(ataque.position, rangogolpe, enemigos);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(punto_ataque.position, rango_golpe, enemigos);
 
         foreach (Collider2D enemy in hitEnemies)
         {
@@ -163,14 +169,14 @@ public class Character_Controller : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.H) == true)
         {
-            if (ataque == null)
+            if (punto_ataque == null)
             {
                 return;
             }
 
             Gizmos.color = Color.green;
 
-            Gizmos.DrawWireSphere(ataque.position, rangogolpe);
+            Gizmos.DrawWireSphere(punto_ataque.position, rango_golpe);
         }
     }
 }
