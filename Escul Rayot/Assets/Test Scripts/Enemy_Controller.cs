@@ -26,18 +26,26 @@ public class Enemy_Controller : MonoBehaviour
     {
         vidaActual -= damage;
 
+        animator.SetTrigger("Hurt");
+
         if (vidaActual <= 0)
         {
-            Muerto();
+            StartCoroutine("Muerto");
         }
     }
 
-    public void Muerto()
+    IEnumerator Muerto()
     {
         Debug.Log(gameObject.name + " ha fallecido :(");
 
-        //animator.SetBool();
+        animator.SetBool("Death", true);
 
-        //Destroy(gameObject);
+        gameObject.GetComponent<Enemy_Controller>().enabled = false;
+
+        gameObject.GetComponent<Collider2D>().enabled = false;
+
+        yield return new WaitForSeconds(7f);
+
+        Destroy(gameObject);
     }
 }

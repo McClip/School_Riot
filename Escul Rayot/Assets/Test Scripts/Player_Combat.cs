@@ -22,6 +22,10 @@ public class Player_Combat : MonoBehaviour
 
     public float puntosDeDaño = 20f;
 
+    public float tiempoDeAtaque = 2f;
+
+    public float coolDown = 0f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -31,9 +35,14 @@ public class Player_Combat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Time.time >= coolDown)
         {
-            Atack();
+            if (Input.GetKeyDown(KeyCode.H))
+            {
+                Atack();
+
+                coolDown = Time.time + (1f / tiempoDeAtaque);
+            }
         }
 
         if (spriteRenderer.flipX == true)

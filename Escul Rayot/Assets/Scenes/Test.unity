@@ -766,3 +766,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   "puntosDeDa\xF1o": 20
+  tiempoDeAtaque: 2
+  coolDown: 0
