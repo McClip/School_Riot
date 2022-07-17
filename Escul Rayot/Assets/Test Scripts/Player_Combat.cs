@@ -29,30 +29,33 @@ public class Player_Combat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        GetComponent<Player_Controller>().StartCoroutine("duracion");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Time.time >= coolDown)
+        if (GetComponent<Player_Controller>().tecladoActivado == true)
         {
-            if (Input.GetKeyDown(KeyCode.H))
+            if (Time.time >= coolDown)
             {
-                Atack();
+                if (Input.GetKeyDown(KeyCode.H))
+                {
+                    Atack();
 
-                coolDown = Time.time + (1f / tiempoDeAtaque);
+                    coolDown = Time.time + (1f / tiempoDeAtaque);
+                }
             }
-        }
 
-        if (spriteRenderer.flipX == true)
-        {
-            puntoDeAtaque.transform.position = new Vector2(player.transform.position.x - 1.725f, puntoDeAtaque.transform.position.y);
-        }
+            if (spriteRenderer.flipX == true)
+            {
+                puntoDeAtaque.transform.position = new Vector2(player.transform.position.x - 1.725f, puntoDeAtaque.transform.position.y);
+            }
 
-        else
-        {
-            puntoDeAtaque.transform.position = new Vector2(player.transform.position.x + 1.725f, puntoDeAtaque.transform.position.y);
+            else
+            {
+                puntoDeAtaque.transform.position = new Vector2(player.transform.position.x + 1.725f, puntoDeAtaque.transform.position.y);
+            }
         }
     }
 
