@@ -77,10 +77,7 @@ public class Player_Controller : MonoBehaviour
                 animator.SetBool("Run", false);
             }
 
-            else if (Check_Ground.estaEnElSuelo)
-            {
-                animator.SetBool("Jump", false);
-            }
+            else if (Check_Ground.estaEnElSuelo) animator.SetBool("Jump", false);
 
             if (saltoMejorado == true)
             {

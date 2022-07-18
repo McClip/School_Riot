@@ -33,7 +33,7 @@ public class Player_Combat : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (GetComponent<Player_Controller>().tecladoActivado == true)
         {
@@ -84,10 +84,7 @@ public class Player_Combat : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.H) == true)
         {
-            if (puntoDeAtaque == null)
-            {
-                return;
-            }
+            if (puntoDeAtaque == null) return;
 
             Gizmos.color = Color.green;
 
