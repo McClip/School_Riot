@@ -11,7 +11,7 @@ public class Player_Controller : MonoBehaviour
 
     public Animator animator;
 
-    Rigidbody2D Rb;
+    private Rigidbody2D Rb;
 
     public SpriteRenderer spriteRenderer;
 
@@ -37,7 +37,7 @@ public class Player_Controller : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (tecladoActivado == true)
         {
@@ -96,8 +96,7 @@ public class Player_Controller : MonoBehaviour
         }
     }
 
-    IEnumerator duracion()
-    {
+    IEnumerator duracion() {
         tecladoActivado = false;
 
         yield return new WaitForSeconds(2f);
