@@ -27,7 +27,7 @@ public class Player_Controller : MonoBehaviour
 
     public float velocidad = 2.0f;
 
-    public float velocidadDeAltura = 2.0f;
+    public float velocidadDeAltura = 13.0f;
 
     void Start()
     {

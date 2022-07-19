@@ -9,6 +9,13 @@ public class Enemy_Scale : MonoBehaviour
     [SerializeField] public GameObject Jugador;
     [SerializeField] public float speed = 5.0f;
     public float velocidad = 2;
+    private bool tiezo;
+
+    private void Start() {
+        
+        StartCoroutine("activacion");
+
+    }
 
     private void Update() {
         
@@ -26,7 +33,20 @@ public class Enemy_Scale : MonoBehaviour
 
         }
 
-        transform.position = Vector2.MoveTowards(transform.position, Jugador.transform.position, speed * Time.deltaTime);
+        if (!tiezo) {
+
+            transform.position = Vector2.MoveTowards(transform.position, Jugador.transform.position, speed * Time.deltaTime);
+
+        }
 
     }
+
+    IEnumerator activacion() {
+        tiezo = true;
+
+        yield return new WaitForSeconds(2f);
+
+        tiezo = false;
+    }
+
 }
