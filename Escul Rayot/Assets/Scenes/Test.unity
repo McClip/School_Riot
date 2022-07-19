@@ -433,7 +433,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Jugador: {fileID: 2136582272}
   speed: 3
-  velocidad: 67
 --- !u!50 &1072923494
 Rigidbody2D:
   serializedVersion: 4
