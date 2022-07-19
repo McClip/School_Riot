@@ -16,7 +16,7 @@ public class Enemy_Scale : MonoBehaviour
         
         if (direccion.x >= 0.0f) {
 
-            transform.localScale = new Vector3(10.0f, 10.0f, 1.0f);
+            transform.localScale = new Vector3(10.0f, 10.0f, 1.0f); // Salvando el script
 
         }
 
