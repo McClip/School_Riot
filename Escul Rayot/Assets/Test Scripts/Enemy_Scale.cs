@@ -8,7 +8,6 @@ public class Enemy_Scale : MonoBehaviour
     private Rigidbody2D rb2d;
     [SerializeField] public GameObject Jugador;
     [SerializeField] public float speed = 5.0f;
-    public float velocidad = 2;
     private bool tiezo;
 
     private void Start() {
