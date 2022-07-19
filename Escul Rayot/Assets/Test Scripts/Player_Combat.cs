@@ -33,7 +33,7 @@ public class Player_Combat : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (GetComponent<Player_Controller>().tecladoActivado == true)
         {
