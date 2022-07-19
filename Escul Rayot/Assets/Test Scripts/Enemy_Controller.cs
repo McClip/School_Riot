@@ -52,7 +52,7 @@ public class Enemy_Controller : MonoBehaviour
         gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
         colliderPinto.GetComponent<Collider2D>().enabled = true;
 
-        yield return new WaitForSeconds(3.2f);
+        yield return new WaitForSeconds(3.8f);
 
         Destroy(gameObject);
         Destroy(colliderPinto.gameObject);
