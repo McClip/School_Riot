@@ -20,7 +20,7 @@ public class Player_Combat : MonoBehaviour
 
     public LayerMask LayerDeEnemigo;
 
-    public float puntosDeDaño = 20f;
+    public float puntosDeDaÃ±o = 20f;
 
     public float tiempoDeAtaque = 2f;
 
@@ -39,7 +39,7 @@ public class Player_Combat : MonoBehaviour
         {
             if (Time.time >= coolDown)
             {
-                if (Input.GetKeyDown(KeyCode.H))
+                if (Input.GetKey("h"))
                 {
                     Atack();
 
@@ -69,7 +69,7 @@ public class Player_Combat : MonoBehaviour
         {
             Debug.Log("El enemigo " + enemy.name + " ha sido golpeado");
 
-            enemy.GetComponent<Enemy_Controller>().Daño(puntosDeDaño);
+            enemy.GetComponent<Enemy_Controller>().DaÃ±o(puntosDeDaÃ±o);
 
             Debug.Log("Le quedan " + enemy.GetComponent<Enemy_Controller>().vidaActual + " puntos de vida");
 

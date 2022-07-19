@@ -21,10 +21,18 @@ public class Check_Ground : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        estaEnElSuelo = true;
+        if (collision.CompareTag("Ground")) {
+
+            estaEnElSuelo = true;
+
+        }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        estaEnElSuelo = false;
+        if (collision.CompareTag("Ground")) {
+
+            estaEnElSuelo = false;
+
+        }
     }
 }

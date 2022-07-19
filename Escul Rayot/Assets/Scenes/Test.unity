@@ -247,6 +247,8 @@ GameObject:
   - component: {fileID: 1072923488}
   - component: {fileID: 1072923491}
   - component: {fileID: 1072923492}
+  - component: {fileID: 1072923493}
+  - component: {fileID: 1072923494}
   m_Layer: 3
   m_Name: Rene Pinto
   m_TagString: Untagged
@@ -335,7 +337,7 @@ Transform:
   m_GameObject: {fileID: 1072923487}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.08, y: -1.37, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 1}
+  m_LocalScale: {x: -10, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -380,8 +382,45 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1072923488}
+  rb2d: {fileID: 0}
+  jugador: {fileID: 0}
   maxVida: 100
   vidaActual: 0
+--- !u!114 &1072923493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1072923487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97be0b4631e92a148a2c7fdb162555ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Jugador: {fileID: 2136582272}
+  velocidad: 67
+--- !u!50 &1072923494
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1072923487}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &1281792265
 GameObject:
   m_ObjectHideFlags: 0
@@ -584,7 +623,7 @@ GameObject:
   - component: {fileID: 2136582278}
   - component: {fileID: 2136582279}
   m_Layer: 0
-  m_Name: Toby sprite_0
+  m_Name: Jugador
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
