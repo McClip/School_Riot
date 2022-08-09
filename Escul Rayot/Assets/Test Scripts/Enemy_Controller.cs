@@ -18,6 +18,8 @@ public class Enemy_Controller : MonoBehaviour
 
     public GameObject campo;
 
+    public GameObject enemigo;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,6 +46,8 @@ public class Enemy_Controller : MonoBehaviour
             barraVida.transform.GetChild(3).gameObject.SetActive(false);
             barraVida.transform.GetChild(4).gameObject.SetActive(false);
             barraVida.transform.GetChild(5).gameObject.SetActive(true);
+
+            Debug.Log("El " + enemigo.name + " ha muerto por caida.");
         }
 
     }
@@ -129,6 +133,7 @@ public class Enemy_Controller : MonoBehaviour
         gameObject.GetComponent<Enemy_Scale>().enabled = false;
 
         gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
+        Destroy(enemigo.transform.GetChild(1).gameObject);
         colliderPinto.GetComponent<Collider2D>().enabled = true;
 
         yield return new WaitForSeconds(3.8f);
