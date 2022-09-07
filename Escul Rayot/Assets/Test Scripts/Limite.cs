@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class Limite : MonoBehaviour
 {
+    [Header("Variables de Control:")]
+
     public bool limite;
+
+    public bool limiteJugador;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -28,6 +33,11 @@ public class Limite : MonoBehaviour
         {
             limite = false;
         }
+
+        else if (collision.CompareTag("Player"))
+        {
+            limiteJugador = false;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -35,6 +45,11 @@ public class Limite : MonoBehaviour
         if (collision.CompareTag("Enemmy"))
         {
             limite = true;
+        }
+
+        else if (collision.CompareTag("Player"))
+        {
+            limiteJugador = true;
         }
     }
 }

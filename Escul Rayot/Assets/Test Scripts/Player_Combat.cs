@@ -26,6 +26,8 @@ public class Player_Combat : MonoBehaviour
 
     public float coolDown = 0f;
 
+    public GameObject enemigo;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -69,14 +71,19 @@ public class Player_Combat : MonoBehaviour
         {
             Debug.Log("El enemigo " + enemy.name + " ha sido golpeado");
 
-            enemy.GetComponent<Enemy_Controller>().Daño(puntosDeDaño);
+            //enemy.GetComponent<Enemy_Controller>().Daño(puntosDeDaño);
 
-            Debug.Log("Le quedan " + enemy.GetComponent<Enemy_Controller>().vidaActual + " puntos de vida");
+            //Debug.Log("Le quedan " + enemy.GetComponent<Enemy_Controller>().vidaActual + " puntos de vida");
 
-            if (enemy.GetComponent<Enemy_Controller>().vidaActual <= 0)
-            {
-                Debug.Log(enemy.name + " ha fallecido :(");
-            }
+            //if (enemigo.GetComponent<Enemy_Controller>().vidaActual >= 20)
+            //{
+            //    StartCoroutine(Knockback(enemy, 0.35f));
+            //}
+
+            //if (enemy.GetComponent<Enemy_Controller>().vidaActual <= 0)
+            //{
+            //    Debug.Log(enemy.name + " ha fallecido :(");
+            //}
         }
     }
 
@@ -90,5 +97,18 @@ public class Player_Combat : MonoBehaviour
 
             Gizmos.DrawWireSphere(puntoDeAtaque.position, rangoDeGolpe);
         }
+    }
+
+    IEnumerator Knockback(Collider2D enemy, float time)
+    {
+        enemy.gameObject.GetComponent<Enemy_Scale>().enabled = false;
+
+        enemy.gameObject.GetComponent<Enemy_Controller>().enabled = false;
+
+        yield return new WaitForSeconds(time);
+
+        enemy.gameObject.GetComponent<Enemy_Scale>().enabled = true;
+
+        enemy.gameObject.GetComponent<Enemy_Controller>().enabled = true;
     }
 }

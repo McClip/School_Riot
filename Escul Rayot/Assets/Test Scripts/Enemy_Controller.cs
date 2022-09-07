@@ -1,12 +1,19 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy_Controller : MonoBehaviour
 {
+    [Header("Variables de Control:")]
+
     public Animator animator;
 
-    public Rigidbody2D rb2d;
+    //public Rigidbody2D rb2d;
+
+    public GameObject enemigo;
+
+    [Header("Variables de Vida:")]
 
     public float maxVida = 100f;
 
@@ -18,13 +25,9 @@ public class Enemy_Controller : MonoBehaviour
 
     public GameObject campo;
 
-    public GameObject enemigo;
-
     // Start is called before the first frame update
     void Start()
     {
-        //GetComponent<Limite>();
-
         vidaActual = maxVida;
         colliderPinto.GetComponent<Collider2D>().enabled = false;
 
@@ -32,12 +35,10 @@ public class Enemy_Controller : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (campo.GetComponent<Limite>().limite == true)
         {
-            //vidaActual = 0;
-
             StartCoroutine("Muerto");
 
             barraVida.transform.GetChild(0).gameObject.SetActive(false);
@@ -49,7 +50,6 @@ public class Enemy_Controller : MonoBehaviour
 
             Debug.Log("El " + enemigo.name + " ha muerto por caida.");
         }
-
     }
 
     public void Daño(float damage)
@@ -127,30 +127,21 @@ public class Enemy_Controller : MonoBehaviour
     {
         Debug.Log(gameObject.name + " ha fallecido :(");
 
+        //animator.SetBool("Hurt", false);
+
         animator.SetBool("Death", true);
 
-        gameObject.GetComponent<Enemy_Controller>().enabled = false;
+        
         gameObject.GetComponent<Enemy_Scale>().enabled = false;
 
         gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
-        Destroy(enemigo.transform.GetChild(1).gameObject);
         colliderPinto.GetComponent<Collider2D>().enabled = true;
 
         yield return new WaitForSeconds(3.8f);
 
         Destroy(gameObject);
         Destroy(colliderPinto.gameObject);
-    }
-
-    public void mirarJugador() {
-
-        // if ((jugador.position.x > transform.position.x && !mirandoIzquierda) || (jugador.position.x < transform.position.x && mirandoIzquierda)) {
-
-            //mirandoIzquierda = !mirandoIzquierda;
-          //  transform.eulerAngles = new Vector3(0, transform.eulerAngles.y + 180, 0);
-
-        //}
+        gameObject.GetComponent<Enemy_Controller>().enabled = false;
 
     }
-
 }

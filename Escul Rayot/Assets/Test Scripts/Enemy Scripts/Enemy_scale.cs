@@ -2,25 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy_Scale : MonoBehaviour
+public class Enemy_scale : MonoBehaviour
 {
-    [Header("Variables de Control:")]
+    public GameObject player;
 
-    public bool tiezo;
+    public bool isFlipped;
 
-    public GameObject Jugador;
-
-    public Animator animator;
-
-    //public GameObject enemigo;
+    public GameObject checkGround;
 
     private Rigidbody2D rb2d;
-
-    public GameObject checkGround; 
-
-    [Header("Variables de Movimiento:")]
-
-    public float speed = 5.0f;
 
     public float salto = 13f;
 
@@ -30,51 +20,59 @@ public class Enemy_Scale : MonoBehaviour
 
     public float velocidadDeSubida;
 
-    //public GameObject empujar;
+    public bool tecladoActivado;
 
-    private void Start() {
+    public Animator animator;
 
-        rb2d = GetComponent<Rigidbody2D>();
-        
-        StartCoroutine("activacion");
+    public float speed = 2.5f;
 
+    public void ChangingScale()
+    {
+        Vector3 direccion = player.transform.position - transform.position;
+
+        if (direccion.x >= 0.0f)
+        {
+            transform.localScale = new Vector3(10.0f, 10.0f, 1.0f); // Salvando el script
+        }
+
+        else
+        {
+            transform.localScale = new Vector3(-10.0f, 10.0f, 1.0f);
+        }
     }
 
-    private void FixedUpdate() {
-        
-        Vector3 direccion = Jugador.transform.position - transform.position;
-        
-        if (direccion.x >= 0.0f) {
+    // Start is called before the first frame update
+    void Start()
+    {
+        rb2d = GetComponent<Rigidbody2D>();
 
-            transform.localScale = new Vector3(10.0f, 10.0f, 1.0f); // Salvando el script
+        StartCoroutine("activacion");
+    }
 
-        }
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        ChangingScale();
 
-        else {
-
-            transform.localScale = new Vector3(-10.0f, 10.0f, 1.0f);
-
-        }
-
-        if (!tiezo) {
-
-            transform.position = Vector2.MoveTowards(transform.position, Jugador.transform.position, speed * Time.deltaTime);
+        if (!tecladoActivado)
+        {
+            rb2d.position = Vector2.MoveTowards(rb2d.position, player.transform.position, speed * Time.deltaTime);
 
             animator.SetBool("Run", true);
 
-            if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space)) && (checkGround.GetComponent<Check_Ground>().bustjump == true) && (checkGround.GetComponent<Check_Ground>().estaEnElSuelo==true))
+            if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space)) && (checkGround.GetComponent<Check_Ground>().bustjump == true) && (checkGround.GetComponent<Check_Ground>().estaEnElSuelo == true))
             {
                 StartCoroutine("delaySalto");
             }
 
             else if (checkGround.GetComponent<Check_Ground>().estaEnElSuelo == false && checkGround.GetComponent<Check_Ground>().bustjump == true)
             {
-                StartCoroutine(delayAnimacion(0.4f, true, false));
+                StartCoroutine(delayAnimacion(0.2f, true, false));
             }
 
             else if (checkGround.GetComponent<Check_Ground>().estaEnElSuelo == true && checkGround.GetComponent<Check_Ground>().bustjump == true)
             {
-                StartCoroutine(delayCaida(0.4f, false /*, true*/));
+                StartCoroutine(delayCaida(0.2f, false /*, true*/));
             }
 
             else if ((checkGround.GetComponent<Check_Ground>().estaEnElSuelo == true) && checkGround.GetComponent<Check_Ground>().bustjump == false)
@@ -86,7 +84,7 @@ public class Enemy_Scale : MonoBehaviour
 
             else if (checkGround.GetComponent<Check_Ground>().bustjump == false && checkGround.GetComponent<Check_Ground>().estaEnElSuelo == false)
             {
-                animator.SetBool("Jump", false);
+                animator.SetBool("Jump", true);
                 //StartCoroutine(delayAnimacion(0f, false, true));
             }
 
@@ -101,19 +99,7 @@ public class Enemy_Scale : MonoBehaviour
                     rb2d.velocity += Vector2.up * Physics2D.gravity.y * velocidadDeSubida * Time.deltaTime;
                 }
             }
-
         }
-    }
-
-    IEnumerator activacion() {
-
-        tiezo = true;
-
-        yield return new WaitForSeconds(2f);
-
-        tiezo = false;
-
-        //animator.SetBool("Run", true);
     }
 
     IEnumerator delaySalto()
@@ -121,16 +107,22 @@ public class Enemy_Scale : MonoBehaviour
         yield return new WaitForSeconds(0.4f);
 
         rb2d.velocity = new Vector2(rb2d.velocity.x, salto);
+
+        //animator.SetBool("Jump", true);
     }
 
-    public void Salto()
+    IEnumerator activacion()
     {
-        //yield return new WaitForSeconds(0.4f);
+        tecladoActivado = true;
 
-        rb2d.velocity = new Vector2(rb2d.velocity.x, Jugador.GetComponent<Player_Controller>().velocidadDeAltura);
+        yield return new WaitForSeconds(2f);
+
+        tecladoActivado = false;
+
+        //animator.SetBool("Run", true);
     }
 
-    IEnumerator delayCaida(float time, bool estate1/*, bool estate2*/)
+     IEnumerator delayCaida(float time, bool estate1/*, bool estate2*/)
     {
         yield return new WaitForSeconds(time); //0.4f
 
