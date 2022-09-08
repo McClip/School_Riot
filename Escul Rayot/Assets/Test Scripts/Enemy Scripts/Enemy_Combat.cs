@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player_Combat : MonoBehaviour
+public class Enemy_Combat : MonoBehaviour
 {
     [Header("Variables de Control:")]
 
@@ -10,17 +10,19 @@ public class Player_Combat : MonoBehaviour
 
     public SpriteRenderer spriteRenderer;
 
-    public GameObject player;
+    Rigidbody2D rb;
+
+    public Transform playerPos;
 
     [Header("Variables del Ataque:")]
 
-    public float rangoDeGolpe = 0.5f;
+    public float attackRange = 7f;
 
     public Transform puntoDeAtaque;
 
     public LayerMask LayerDeEnemigo;
 
-    public float puntosDeDaÃ±o = 20f;
+    public float puntosDeDaño = 20f;
 
     public float tiempoDeAtaque = 2f;
 
@@ -31,17 +33,19 @@ public class Player_Combat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<Player_Controller>().StartCoroutine("duracion");
+        rb = GetComponent<Rigidbody2D>();
+
+        GetComponent<Enemy_scale>().StartCoroutine("activacion");
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        if (GetComponent<Player_Controller>().tecladoActivado == true)
+        if (GetComponent<Enemy_scale>().tecladoActivado == false)
         {
             if (Time.time >= coolDown)
             {
-                if (Input.GetKey("h"))
+                if (Vector2.Distance(playerPos.position, rb.position) <= 3)
                 {
                     Atack();
 
@@ -51,27 +55,27 @@ public class Player_Combat : MonoBehaviour
 
             if (spriteRenderer.flipX == true)
             {
-                puntoDeAtaque.transform.position = new Vector2(player.transform.position.x - 1.725f, puntoDeAtaque.transform.position.y);
+                puntoDeAtaque.transform.position = new Vector2(rb.transform.position.x + 1.725f, puntoDeAtaque.transform.position.y);
             }
 
             else
             {
-                puntoDeAtaque.transform.position = new Vector2(player.transform.position.x + 1.725f, puntoDeAtaque.transform.position.y);
+                puntoDeAtaque.transform.position = new Vector2(rb.transform.position.x - 1.725f, puntoDeAtaque.transform.position.y);
             }
         }
     }
 
     public void Atack()
     {
-        animator.SetTrigger("Punch");
+        animator.SetTrigger("Attack");
 
-        Collider2D[] hitenemies = Physics2D.OverlapCircleAll(puntoDeAtaque.position, rangoDeGolpe, LayerDeEnemigo);
+        Collider2D[] hitenemies = Physics2D.OverlapCircleAll(puntoDeAtaque.position, attackRange, LayerDeEnemigo);
 
         foreach (Collider2D enemy in hitenemies)
         {
             Debug.Log("El enemigo " + enemy.name + " ha sido golpeado");
 
-            //enemy.GetComponent<Enemy_Controller>().DaÃ±o(puntosDeDaÃ±o);
+            //enemy.GetComponent<Enemy_Controller>().Daño(puntosDeDaño);
 
             //Debug.Log("Le quedan " + enemy.GetComponent<Enemy_Controller>().vidaActual + " puntos de vida");
 
@@ -95,20 +99,7 @@ public class Player_Combat : MonoBehaviour
 
             Gizmos.color = Color.green;
 
-            Gizmos.DrawWireSphere(puntoDeAtaque.position, rangoDeGolpe);
+            Gizmos.DrawWireSphere(puntoDeAtaque.position, attackRange);
         }
-    }
-
-    IEnumerator Knockback(Collider2D enemy, float time)
-    {
-        enemy.gameObject.GetComponent<Enemy_Scale>().enabled = false;
-
-        enemy.gameObject.GetComponent<Enemy_Controller>().enabled = false;
-
-        yield return new WaitForSeconds(time);
-
-        enemy.gameObject.GetComponent<Enemy_Scale>().enabled = true;
-
-        enemy.gameObject.GetComponent<Enemy_Controller>().enabled = true;
     }
 }

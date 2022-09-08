@@ -181,6 +181,37 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.055533126, y: 0.0006068796}
   m_EdgeRadius: 0
+--- !u!1 &406135677
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 406135678}
+  m_Layer: 0
+  m_Name: Atack Point (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &406135678
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 406135677}
+  m_LocalRotation: {x: -0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.177, y: 0.011, z: 0}
+  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 606095441}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &424676691
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,6 +421,7 @@ GameObject:
   - component: {fileID: 606095443}
   - component: {fileID: 606095442}
   - component: {fileID: 606095444}
+  - component: {fileID: 606095445}
   m_Layer: 3
   m_Name: pintudo (2)_0
   m_TagString: Enemmy
@@ -478,9 +510,10 @@ Transform:
   m_GameObject: {fileID: 606095438}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 4.69, y: -1.48, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 1}
+  m_LocalScale: {x: -10, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 406135678}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -553,6 +586,31 @@ MonoBehaviour:
   tecladoActivado: 0
   animator: {fileID: 606095439}
   speed: 5
+  direccion: 0
+--- !u!114 &606095445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606095438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b93b695fe0bd34ea656ce19847eb7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 606095439}
+  spriteRenderer: {fileID: 606095440}
+  playerPos: {fileID: 2136582275}
+  attackRange: 0.5
+  puntoDeAtaque: {fileID: 406135678}
+  LayerDeEnemigo:
+    serializedVersion: 2
+    m_Bits: 64
+  "puntosDeDa\xF1o": 20
+  tiempoDeAtaque: 2
+  coolDown: 0
+  enemigo: {fileID: 2136582272}
 --- !u!1 &639010793
 GameObject:
   m_ObjectHideFlags: 0
@@ -1618,7 +1676,7 @@ GameObject:
   - component: {fileID: 1808017394}
   - component: {fileID: 1808017396}
   - component: {fileID: 1808017395}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ground Check
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1883,7 +1941,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1981828888}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Atack Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2088,7 +2146,7 @@ GameObject:
   - component: {fileID: 2136582276}
   - component: {fileID: 2136582278}
   - component: {fileID: 2136582279}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Jugador
   m_TagString: Player
   m_Icon: {fileID: 0}
