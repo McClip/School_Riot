@@ -23,8 +23,6 @@ public class Empuje : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             empuje = true;
-
-            //StartCoroutine(esperar(true));
         }
     }
 
@@ -33,8 +31,6 @@ public class Empuje : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             empuje = false;
-
-            //StartCoroutine(esperar(false));
         }
     }
 

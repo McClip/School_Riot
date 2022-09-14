@@ -28,10 +28,28 @@ public class Player_Combat : MonoBehaviour
 
     public GameObject enemigo;
 
+    public bool knockBack;
+
     // Start is called before the first frame update
     void Start()
     {
         GetComponent<Player_Controller>().StartCoroutine("duracion");
+    }
+
+    private void Update()
+    {
+        if (GetComponent<Player_Controller>().tecladoActivado == true)
+        {
+            if (Time.time >= coolDown)
+            {
+                if (Input.GetKeyDown("h"))
+                {
+                    Atack();
+
+                    coolDown = Time.time + (1f / tiempoDeAtaque);
+                }
+            }
+        }
     }
 
     // Update is called once per frame
@@ -39,16 +57,6 @@ public class Player_Combat : MonoBehaviour
     {
         if (GetComponent<Player_Controller>().tecladoActivado == true)
         {
-            if (Time.time >= coolDown)
-            {
-                if (Input.GetKey("h"))
-                {
-                    Atack();
-
-                    coolDown = Time.time + (1f / tiempoDeAtaque);
-                }
-            }
-
             if (spriteRenderer.flipX == true)
             {
                 puntoDeAtaque.transform.position = new Vector2(player.transform.position.x - 1.725f, puntoDeAtaque.transform.position.y);
@@ -71,19 +79,21 @@ public class Player_Combat : MonoBehaviour
         {
             Debug.Log("El enemigo " + enemy.name + " ha sido golpeado");
 
-            //enemy.GetComponent<Enemy_Controller>().Daño(puntosDeDaño);
+            enemy.GetComponent<Enemy_Combat>().Daño(puntosDeDaño);
 
-            //Debug.Log("Le quedan " + enemy.GetComponent<Enemy_Controller>().vidaActual + " puntos de vida");
+            Debug.Log("Le quedan " + enemy.GetComponent<Enemy_Combat>().currentLife + " puntos de vida");
 
-            //if (enemigo.GetComponent<Enemy_Controller>().vidaActual >= 20)
-            //{
-            //    StartCoroutine(Knockback(enemy, 0.35f));
-            //}
+            if (enemigo.GetComponent<Enemy_Combat>().currentLife > 0 /*&& enemigo.transform.GetChild(1).gameObject.GetComponent<Identify>().tangible == true*/)
+            {
+                StartCoroutine(Knockback(enemy, 1.35f));
+            }
 
-            //if (enemy.GetComponent<Enemy_Controller>().vidaActual <= 0)
-            //{
-            //    Debug.Log(enemy.name + " ha fallecido :(");
-            //}
+            if (/*enemy.GetComponent<Enemy_Combat>().currentLife <= 0*/ enemigo.transform.GetChild(1).gameObject.GetComponent<Identify>().tangible == false)
+            {
+                Debug.Log(enemy.name + " ha fallecido :(");
+
+                knockBack = true;
+            }
         }
     }
 
@@ -101,14 +111,18 @@ public class Player_Combat : MonoBehaviour
 
     IEnumerator Knockback(Collider2D enemy, float time)
     {
-        enemy.gameObject.GetComponent<Enemy_Scale>().enabled = false;
+        enemy.gameObject.GetComponent<Enemy_scale>().enabled = false;
 
-        enemy.gameObject.GetComponent<Enemy_Controller>().enabled = false;
+        enemy.gameObject.GetComponent<Enemy_Combat>().enabled = false;
+
+        //enemigo.GetComponent<Animator>().SetTrigger("Hurt");
 
         yield return new WaitForSeconds(time);
 
-        enemy.gameObject.GetComponent<Enemy_Scale>().enabled = true;
+        enemy.gameObject.GetComponent<Enemy_scale>().enabled = true;
 
-        enemy.gameObject.GetComponent<Enemy_Controller>().enabled = true;
+        enemy.gameObject.GetComponent<Enemy_Combat>().enabled = true;
+
+        knockBack = false;
     }
 }

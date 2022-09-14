@@ -10,6 +10,8 @@ public class Enemy_scale : MonoBehaviour
 
     public GameObject checkGround;
 
+    public GameObject enemy;
+
     private Rigidbody2D rb2d;
 
     public float salto = 13f;
@@ -27,6 +29,8 @@ public class Enemy_scale : MonoBehaviour
     public float speed = 2.5f;
 
     public float direccion;
+
+    //public bool isGrounded;
 
     public void ChangingScale()
     {
@@ -52,6 +56,8 @@ public class Enemy_scale : MonoBehaviour
 
         direccion = gameObject.transform.localScale.x;
 
+        //isGrounded = true;
+
         //animator.SetBool("Run", true);
     }
 
@@ -64,49 +70,89 @@ public class Enemy_scale : MonoBehaviour
         {
             rb2d.position = Vector2.MoveTowards(rb2d.position, player.transform.position, speed * Time.deltaTime);
 
-            if (gameObject.transform.localScale.x != direccion) {
-
+            if (gameObject.transform.localScale.x != direccion) 
+            {
                 direccion = gameObject.transform.localScale.x;
 
                 Debug.Log("Ha cambiado de direccion");
+
+                //animator.SetBool("Jump", false);
+
+                //animator.SetBool("Run", false);
 
                 //StartCoroutine(delayAnimacion(0f, false, false));
 
                 DetenerMovimiento();
             }
 
-            if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space)) && (checkGround.GetComponent<Check_Ground>().bustjump == true) && (checkGround.GetComponent<Check_Ground>().estaEnElSuelo == true))
+            if ((Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space)) && (checkGround.GetComponent<Check_Ground>().bustjump == true) && (checkGround.GetComponent<Check_Ground>().estaEnElSuelo == true) && player.GetComponent<Player_Combat>().knockBack == false)
             {
                 StartCoroutine("delaySalto");
             }
 
-            else if (checkGround.GetComponent<Check_Ground>().estaEnElSuelo == true && checkGround.GetComponent<Check_Ground>().bustjump == true)
+            if (enemy.transform.GetChild(1).gameObject.GetComponent<Identify>().tangible == false && checkGround.GetComponent<Check_Ground>().bustjump == true)
             {
-                //StartCoroutine(delayAnimacion(0.2f, true, false));
+                animator.SetBool("Jump", true);
+
+                animator.SetBool("Run", false);
+            }
+
+            else if (enemy.GetComponent<Enemy_scale>().speed == 0)
+            {
                 animator.SetBool("Jump", false);
+
+                animator.SetBool("Run", false);
+            }
+
+            else if (enemy.transform.GetChild(2).gameObject.GetComponent<Empuje>().empuje == true)
+            {
+                animator.SetBool("Jump", false);
+
+                animator.SetBool("Run", false);
+            }
+
+            else
+            {
+                animator.SetBool("Jump", false);
+
                 animator.SetBool("Run", true);
             }
 
-            else if (checkGround.GetComponent<Check_Ground>().estaEnElSuelo == false && checkGround.GetComponent<Check_Ground>().bustjump == true)
-            {
-                StartCoroutine(delayAnimacion(0.2f, true, false));
-                //animator.SetBool("Jump", true);
-                //animator.SetBool("Run", false);
-            }
+            //else if (checkGround.GetComponent<Check_Ground>().estaEnElSuelo == true && checkGround.GetComponent<Check_Ground>().bustjump == true && player.GetComponent<Player_Combat>().knockBack == false)
+            //{
+            //    //StartCoroutine(delayAnimacion(0.2f, true, false));
+            //    animator.SetBool("Jump", false);
+            //    animator.SetBool("Run", true);
 
-            else if (checkGround.GetComponent<Check_Ground>().estaEnElSuelo == true && checkGround.GetComponent<Check_Ground>().bustjump == false)
-            {
-                animator.SetBool("Jump", false);
-                animator.SetBool("Run", false);
-                //StartCoroutine(delayAnimacion(0f, false, false));
-            }
+            //    isGrounded = true;
+            //}
 
-            else if (checkGround.GetComponent<Check_Ground>().bustjump == false && checkGround.GetComponent<Check_Ground>().estaEnElSuelo == false)
-            {
-                animator.SetBool("Jump", false);
-                animator.SetBool("Run", false);
-                //StartCoroutine(delayAnimacion(0f, false, true));
-            }
+            //else if (checkGround.GetComponent<Check_Ground>().estaEnElSuelo == false && checkGround.GetComponent<Check_Ground>().bustjump == true && player.GetComponent<Player_Combat>().knockBack == false)
+            //{
+            //    StartCoroutine(delayAnimacion(0.2f, true, false));
+            //    //animator.SetBool("Jump", true);
+            //    //animator.SetBool("Run", false);
+
+            //    isGrounded = false;
+            //}
+
+            //else if (checkGround.GetComponent<Check_Ground>().estaEnElSuelo == true && checkGround.GetComponent<Check_Ground>().bustjump == false && player.GetComponent<Player_Combat>().knockBack == false)
+            //{
+            //    animator.SetBool("Jump", false);
+            //    animator.SetBool("Run", false);
+            //    //StartCoroutine(delayAnimacion(0f, false, false));
+
+            //    isGrounded = true;
+            //}
+
+            //else if (checkGround.GetComponent<Check_Ground>().bustjump == false && checkGround.GetComponent<Check_Ground>().estaEnElSuelo == false && player.GetComponent<Player_Combat>().knockBack == false)
+            //{
+            //    animator.SetBool("Jump", false);
+            //    animator.SetBool("Run", false);
+            //    //StartCoroutine(delayAnimacion(0f, false, true));
+
+            //    isGrounded = true;
+            //}
 
             if (saltoMejorado == true)
             {
@@ -126,21 +172,12 @@ public class Enemy_scale : MonoBehaviour
 
         speed = 0;
 
-        //animator.SetBool("Run", false);
-
-        //animator.SetBool("Jump", false);
-
         Invoke(nameof(DelayMovimiento), 1.2f);
-    
     }
 
     private void DelayMovimiento() {
 
         speed = 5;
-
-        //animator.SetBool("Run", true);
-
-        //animator.SetBool("Jump", false);
     }
 
     IEnumerator delaySalto()
@@ -163,21 +200,21 @@ public class Enemy_scale : MonoBehaviour
         //animator.SetBool("Run", true);
     }
 
-     IEnumerator delayCaida(float time, bool estate1 /*, bool estate2*/)
-    {
-        yield return new WaitForSeconds(time); //0.4f
+    // IEnumerator delayCaida(float time, bool estate1 /*, bool estate2*/)
+    //{
+    //    yield return new WaitForSeconds(time); //0.4f
 
-        animator.SetBool("Jump", estate1); //false
+    //    animator.SetBool("Jump", estate1); //false
 
-        //animator.SetBool("Run", estate2); //true
-    }
+    //    //animator.SetBool("Run", estate2); //true
+    //}
 
-    IEnumerator delayAnimacion(float time, bool estate1, bool estate2)
-    {
-        yield return new WaitForSeconds(time); //0.4f
+    //IEnumerator delayAnimacion(float time, bool estate1, bool estate2)
+    //{
+    //    yield return new WaitForSeconds(time); //0.4f
 
-        animator.SetBool("Jump", estate1); //true
+    //    animator.SetBool("Jump", estate1); //true
 
-        animator.SetBool("Run", estate2); //false
-    }
+    //    animator.SetBool("Run", estate2); //false
+    //}
 }
