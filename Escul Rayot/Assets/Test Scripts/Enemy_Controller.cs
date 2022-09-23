@@ -9,8 +9,6 @@ public class Enemy_Controller : MonoBehaviour
 
     public Animator animator;
 
-    //public Rigidbody2D rb2d;
-
     public GameObject enemigo;
 
     [Header("Variables de Vida:")]

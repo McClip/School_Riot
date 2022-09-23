@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class Enemy_Combat : MonoBehaviour
 {
@@ -40,6 +42,8 @@ public class Enemy_Combat : MonoBehaviour
 
     public GameObject limit;
 
+    public Text text;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,14 +53,14 @@ public class Enemy_Combat : MonoBehaviour
 
         currentLife = maxLife;
 
-        //enemyCollider.GetComponent<Collider2D>().enabled = false;
-
         barLife.transform.GetChild(0).gameObject.SetActive(true);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        text.text = currentLife.ToString();
+
         if (limit.GetComponent<Limite>().limite == true)
         {
             currentLife = 0;
@@ -105,7 +109,7 @@ public class Enemy_Combat : MonoBehaviour
 
         foreach (Collider2D enemy in hitenemies)
         {
-            Debug.Log("El enemigo " + enemy.name + " ha sido golpeado");
+            //Debug.Log("El enemigo " + enemy.name + " ha sido golpeado");
 
             //enemy.GetComponent<Enemy_Controller>().Daño(puntosDeDaño);
 
@@ -139,9 +143,9 @@ public class Enemy_Combat : MonoBehaviour
     {
         currentLife -= damage;
 
-        animator.SetBool("Run", false);
+        //animator.SetBool("Run", false);
 
-        animator.SetBool("Jump", false);
+        //animator.SetBool("Jump", false);
 
         animator.SetTrigger("Hurt");
 
@@ -157,7 +161,7 @@ public class Enemy_Combat : MonoBehaviour
             barLife.transform.GetChild(5).gameObject.SetActive(false);
         }
 
-        else if (currentLife == 80)
+        else if (currentLife >= 80)
         {
             barLife.transform.GetChild(0).gameObject.SetActive(false);
             barLife.transform.GetChild(1).gameObject.SetActive(true);
@@ -167,7 +171,7 @@ public class Enemy_Combat : MonoBehaviour
             barLife.transform.GetChild(5).gameObject.SetActive(false);
         }
 
-        else if (currentLife == 60)
+        else if (currentLife >= 60)
         {
             barLife.transform.GetChild(0).gameObject.SetActive(false);
             barLife.transform.GetChild(1).gameObject.SetActive(false);
@@ -177,7 +181,7 @@ public class Enemy_Combat : MonoBehaviour
             barLife.transform.GetChild(5).gameObject.SetActive(false);
         }
 
-        else if (currentLife == 40)
+        else if (currentLife >= 40)
         {
             barLife.transform.GetChild(0).gameObject.SetActive(false);
             barLife.transform.GetChild(1).gameObject.SetActive(false);
@@ -187,7 +191,7 @@ public class Enemy_Combat : MonoBehaviour
             barLife.transform.GetChild(5).gameObject.SetActive(false);
         }
 
-        else if (currentLife == 20)
+        else if (currentLife >= 20)
         {
             barLife.transform.GetChild(0).gameObject.SetActive(false);
             barLife.transform.GetChild(1).gameObject.SetActive(false);
@@ -216,16 +220,18 @@ public class Enemy_Combat : MonoBehaviour
     {
         Debug.Log(gameObject.name + " ha fallecido :(");
 
+        animator.SetBool("Death", true);
+
         gameObject.GetComponent<Enemy_scale>().enabled = false;
 
         enemy.GetComponent<Enemy_Combat>().enabled = false;
 
+        enemy.transform.GetChild(2).gameObject.SetActive(false);
+
+        enemy.transform.GetChild(3).gameObject.SetActive(false);
+
         enemy.GetComponent<Animator>().SetBool("Jump", false);
         enemy.GetComponent<Animator>().SetBool("Run", false);
-
-        animator.SetBool("Death", true);
-
-        //enemy.tag = "Untagged";
 
         yield return new WaitForSeconds(3.8f);
 

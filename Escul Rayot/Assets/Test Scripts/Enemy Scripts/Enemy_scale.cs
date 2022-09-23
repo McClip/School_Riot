@@ -74,7 +74,7 @@ public class Enemy_scale : MonoBehaviour
             {
                 direccion = gameObject.transform.localScale.x;
 
-                Debug.Log("Ha cambiado de direccion");
+                //Debug.Log("Ha cambiado de direccion");
 
                 //animator.SetBool("Jump", false);
 

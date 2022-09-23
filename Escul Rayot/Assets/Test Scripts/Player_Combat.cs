@@ -36,27 +36,24 @@ public class Player_Combat : MonoBehaviour
         GetComponent<Player_Controller>().StartCoroutine("duracion");
     }
 
-    private void Update()
+    // Update is called once per frame
+    void Update()
     {
         if (GetComponent<Player_Controller>().tecladoActivado == true)
         {
-            if (Time.time >= coolDown)
+            if (knockBack == false)
             {
-                if (Input.GetKeyDown("h"))
+                if (Time.time >= coolDown)
                 {
-                    Atack();
+                    if (Input.GetKeyDown(KeyCode.H))
+                    {
+                        Attack();
 
-                    coolDown = Time.time + (1f / tiempoDeAtaque);
+                        coolDown = Time.time + (1f / tiempoDeAtaque);
+                    }
                 }
             }
-        }
-    }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        if (GetComponent<Player_Controller>().tecladoActivado == true)
-        {
             if (spriteRenderer.flipX == true)
             {
                 puntoDeAtaque.transform.position = new Vector2(player.transform.position.x - 1.725f, puntoDeAtaque.transform.position.y);
@@ -69,7 +66,7 @@ public class Player_Combat : MonoBehaviour
         }
     }
 
-    public void Atack()
+    public void Attack()
     {
         animator.SetTrigger("Punch");
 
@@ -81,25 +78,32 @@ public class Player_Combat : MonoBehaviour
 
             enemy.GetComponent<Enemy_Combat>().Daño(puntosDeDaño);
 
+            enemy.GetComponent<Animator>().SetTrigger("Hurt");
+
             Debug.Log("Le quedan " + enemy.GetComponent<Enemy_Combat>().currentLife + " puntos de vida");
 
-            if (enemigo.GetComponent<Enemy_Combat>().currentLife > 0 /*&& enemigo.transform.GetChild(1).gameObject.GetComponent<Identify>().tangible == true*/)
+            if (enemy.GetComponent<Enemy_Combat>().currentLife > 0 && enemy.transform.GetChild(1).gameObject.GetComponent<Identify>().tangible == true)
             {
-                StartCoroutine(Knockback(enemy, 1.35f));
+                StartCoroutine(Knockback(enemy, 2f));
             }
 
-            if (/*enemy.GetComponent<Enemy_Combat>().currentLife <= 0*/ enemigo.transform.GetChild(1).gameObject.GetComponent<Identify>().tangible == false)
+            else if (enemy.GetComponent<Enemy_Combat>().currentLife > 0 && enemy.transform.GetChild(1).gameObject.GetComponent<Identify>().tangible == false)
+            {
+                knockBack = false;
+            }
+
+            else if (enemy.GetComponent<Enemy_Combat>().currentLife <= 0)
             {
                 Debug.Log(enemy.name + " ha fallecido :(");
 
-                knockBack = true;
+                knockBack = false;
             }
         }
     }
 
     private void OnDrawGizmosSelected()
     {
-        if (Input.GetKey(KeyCode.H) == true)
+        if (Input.GetKey(KeyCode.H) == true && knockBack == false)
         {
             if (puntoDeAtaque == null) return;
 
@@ -111,17 +115,31 @@ public class Player_Combat : MonoBehaviour
 
     IEnumerator Knockback(Collider2D enemy, float time)
     {
-        enemy.gameObject.GetComponent<Enemy_scale>().enabled = false;
+        enemy.gameObject.GetComponent<Enemy_scale>().tecladoActivado = true;
 
-        enemy.gameObject.GetComponent<Enemy_Combat>().enabled = false;
+        //enemy.gameObject.GetComponent<Enemy_Combat>().enabled = false;
 
-        //enemigo.GetComponent<Animator>().SetTrigger("Hurt");
+        //enemy.gameObject.GetComponent<Enemy_scale>().enabled = false;
+
+        enemy.gameObject.GetComponent<Animator>().SetBool("Run", false);
+
+        enemy.gameObject.GetComponent<Animator>().SetBool("Jump", false);
+
+        //puntosDeDaño = 0f;
 
         yield return new WaitForSeconds(time);
 
-        enemy.gameObject.GetComponent<Enemy_scale>().enabled = true;
+        enemy.gameObject.GetComponent<Enemy_scale>().tecladoActivado = false;
 
-        enemy.gameObject.GetComponent<Enemy_Combat>().enabled = true;
+        //enemy.gameObject.GetComponent<Enemy_Combat>().enabled = true;
+
+        //enemy.gameObject.GetComponent<Enemy_scale>().enabled = true;
+
+        enemy.gameObject.GetComponent<Animator>().SetBool("Run", true);
+
+        enemy.gameObject.GetComponent<Animator>().SetBool("Jump", false);
+
+        //puntosDeDaño = 5f;
 
         knockBack = false;
     }

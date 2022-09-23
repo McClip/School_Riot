@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player_Controller : MonoBehaviour
 {
@@ -46,7 +47,7 @@ public class Player_Controller : MonoBehaviour
 
     public GameObject campo;
 
-    //public GameObject colliderTody;
+    public Text texto;
 
     void Start()
     {
@@ -64,6 +65,8 @@ public class Player_Controller : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        texto.text = vidaActual.ToString();
+
         if (campo.GetComponent<Limite>().limiteJugador == true)
         {
             vidaActual = 0;
@@ -130,6 +133,11 @@ public class Player_Controller : MonoBehaviour
                 {
                     Rb.velocity += Vector2.up * Physics2D.gravity.y * velocidadDeSubida * Time.deltaTime;
                 }
+            }
+
+            if (enemigo.GetComponent<Enemy_Combat>().currentLife == 0)
+            {
+                enemigo.GetComponent<Enemy_Combat>().text.text = "0";
             }
         }
     }
