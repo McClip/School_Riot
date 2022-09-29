@@ -123,8 +123,6 @@ public class Enemy_Combat : MonoBehaviour
 
             rb.position = Vector2.MoveTowards(rb.position, victoryPos.transform.position, 5 * Time.deltaTime);
 
-            //rb.constraints = RigidbodyConstraints2D.FreezePositionY;
-
             if (Vector2.Distance(rb.position, victoryPos.transform.position) <= 1f)
             {
                 Invoke(nameof(Giro), 1f);
