@@ -84,12 +84,12 @@ public class Player_Combat : MonoBehaviour
 
             if (enemy.GetComponent<Enemy_Combat>().currentLife > 0 && enemy.transform.GetChild(1).gameObject.GetComponent<Identify>().tangible == true)
             {
-                StartCoroutine(Knockback(enemy, 2f));
+                StartCoroutine(Knockback(enemy, 1.3f));
             }
 
             else if (enemy.GetComponent<Enemy_Combat>().currentLife > 0 && enemy.transform.GetChild(1).gameObject.GetComponent<Identify>().tangible == false)
             {
-                knockBack = false;
+                StartCoroutine(Knockback(enemy, 0.75f));
             }
 
             else if (enemy.GetComponent<Enemy_Combat>().currentLife <= 0)

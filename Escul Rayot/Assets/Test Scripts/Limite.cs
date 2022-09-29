@@ -10,6 +10,8 @@ public class Limite : MonoBehaviour
 
     public bool limiteJugador;
 
+    public bool letal;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,27 +31,43 @@ public class Limite : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemmy"))
+        if (letal == true)
         {
-            limite = false;
+            if (collision.CompareTag("Enemmy"))
+            {
+                limite = false;
+            }
+
+            else if (collision.CompareTag("Player"))
+            {
+                limiteJugador = false;
+            }
         }
 
-        else if (collision.CompareTag("Player"))
+        else
         {
-            limiteJugador = false;
+            limite = false;
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemmy"))
+        if (letal == true)
         {
-            limite = true;
+            if (collision.CompareTag("Enemmy"))
+            {
+                limite = true;
+            }
+
+            else if (collision.CompareTag("Player"))
+            {
+                limiteJugador = true;
+            }
         }
 
-        else if (collision.CompareTag("Player"))
+        else
         {
-            limiteJugador = true;
+            limite = false;
         }
     }
 }

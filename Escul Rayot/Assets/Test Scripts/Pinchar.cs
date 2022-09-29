@@ -28,6 +28,8 @@ public class Pinchar : MonoBehaviour
 
         player.GetComponent<Player_Controller>().vidaActual -= danio;
 
+        player.GetComponent<Animator>().SetTrigger("Hurt");
+
         Debug.Log(player.name + " Le quedan " + player.GetComponent<Player_Controller>().vidaActual + " puntos de vida.");
 
         yield return new WaitForSeconds(0.5f);

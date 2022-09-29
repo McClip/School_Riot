@@ -4,74 +4,86 @@ using UnityEngine;
 
 public class Enemy_Run : StateMachineBehaviour
 {
-    Transform playerPos;
+    Transform player;
 
     Rigidbody2D rb;
 
-    Enemy_scale enemyScale;
+    public float speed = 2.5f;
+
+    Boss boss;
 
     public float attackRange = 3f;
 
-    public float salto = 13f;
+    Transform objetive;
 
-    public float speed = 2.5f;
-
-    SpriteRenderer spriteRenderer;
+    public float jumpForce;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        playerPos = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("Player").transform;
 
         rb = animator.GetComponent<Rigidbody2D>();
 
-        spriteRenderer = animator.GetComponent<SpriteRenderer>();
+        boss = animator.GetComponent<Boss>();
 
-        enemyScale = animator.GetComponent<Enemy_scale>();
+        objetive = GameObject.FindGameObjectWithTag("Victory").transform;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        //spriteRenderer.flipX = false;
+        boss.LookAtPlayer();
 
-        //Vector2 target = new Vector2(playerPos.position.x, rb.position.y);
+        //Vector2 target = new Vector2(player.position.x, player.position.y);
 
-        //Vector2 updatedPos = Vector2.MoveTowards(rb.position, target, speed * Time.fixedDeltaTime);
+        rb.position = Vector2.MoveTowards(rb.position, player.position, speed * Time.deltaTime);
 
-        //rb.MovePosition(updatedPos);
+        //rb.MovePosition(newPos);
 
-        //rb.position = Vector2.MoveTowards(rb.position, playerPos.transform.position, speed * Time.deltaTime);
-
-        //enemyScale.ChangingScale();
-
-        //enemyScale.Salto();
-
-        if (Vector2.Distance(playerPos.position, rb.position) <= attackRange)
+        if (Vector2.Distance(player.position, rb.position) <= attackRange && player.GetComponent<Player_Controller>().vidaActual > 0)
         {
             animator.SetTrigger("Attack");
         }
 
-        //if (enemyScale.checkGround.GetComponent<Check_Ground>().estaEnElSuelo == false && enemyScale.checkGround.GetComponent<Check_Ground>().bustjump == false)
-        //{
-        //    animator.SetBool("Run", false);
+        else if (Vector2.Distance(player.position, rb.position) > attackRange && player.GetComponent<Player_Controller>().vidaActual > 0)
+        {
+            animator.SetBool("Run", true);
+        }
 
-        //    animator.SetBool("Jump", true);
-        //}
+        else if (player.GetComponent<Player_Controller>().vidaActual <= 0)
+        {
+            animator.SetBool("Run", true);
 
-        //else
-        //{
-        //    animator.SetBool("Run", true);
+            rb.transform.localScale = new Vector3(10, 10, 1);
 
-        //    animator.SetBool("Jump", false);
-        //}
+            //Vector2 newTarget = new Vector2(objetive.position.x, rb.position.y);
+
+            //rb.position = Vector2.MoveTowards(rb.position, objetive.position, speed * Time.deltaTime);
+
+            //rb.MovePosition(actualPos);
+
+            rb.position = Vector2.MoveTowards(rb.transform.position, objetive.transform.position, speed * Time.deltaTime);
+
+            if (Vector2.Distance(rb.transform.position, objetive.transform.position) <= 1f)
+            {
+                rb.GetComponent<Animator>().SetBool("Run", false);
+
+                rb.transform.localScale = new Vector3(-10, 10, 1);
+            }
+
+            //if (rb.position == new Vector2(objetive.position.x, rb.position.y))
+            //{
+            //    animator.SetBool("Run", false);
+
+            //    rb.transform.localScale = new Vector3(-10, 10, 1);
+            //}
+        }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.ResetTrigger("Attack");
-
-        //animator.ResetTrigger("Jump");
     }
 }

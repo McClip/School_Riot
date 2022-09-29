@@ -12,7 +12,7 @@ public class Enemy_Combat : MonoBehaviour
 
     public SpriteRenderer spriteRenderer;
 
-    Rigidbody2D rb;
+    public Rigidbody2D rb;
 
     public Transform playerPos;
 
@@ -24,7 +24,7 @@ public class Enemy_Combat : MonoBehaviour
 
     public LayerMask LayerDeEnemigo;
 
-    public float puntosDeDaño = 20f;
+    public float damagePoints = 20f;
 
     public float tiempoDeAtaque = 2f;
 
@@ -43,6 +43,10 @@ public class Enemy_Combat : MonoBehaviour
     public GameObject limit;
 
     public Text text;
+
+    public bool knockbackPlayer;
+
+    public GameObject victoryPos;
 
     // Start is called before the first frame update
     void Start()
@@ -67,25 +71,28 @@ public class Enemy_Combat : MonoBehaviour
 
             StartCoroutine("Muerto");
 
-            barLife.transform.GetChild(0).gameObject.SetActive(false);
             barLife.transform.GetChild(1).gameObject.SetActive(false);
             barLife.transform.GetChild(2).gameObject.SetActive(false);
             barLife.transform.GetChild(3).gameObject.SetActive(false);
             barLife.transform.GetChild(4).gameObject.SetActive(false);
-            barLife.transform.GetChild(5).gameObject.SetActive(true);
+            barLife.transform.GetChild(5).gameObject.SetActive(false);
+            barLife.transform.GetChild(6).gameObject.SetActive(true);
 
             Debug.Log("El " + enemy.name + " ha muerto por caida.");
         }
 
         if (GetComponent<Enemy_scale>().tecladoActivado == false)
         {
-            if (Time.time >= coolDown)
+            if (knockbackPlayer == false)
             {
-                if (Vector2.Distance(playerPos.position, rb.position) <= 3 && enemy.transform.GetChild(2).gameObject.GetComponent<Empuje>().empuje == false)
+                if (Time.time >= coolDown)
                 {
-                    Atack();
+                    if (Vector2.Distance(playerPos.position, rb.position) <= 3 && enemy.transform.GetChild(2).gameObject.GetComponent<Empuje>().empuje == false && playerPos.GetComponent<Player_Controller>().vidaActual > 0 && (Input.GetKey(KeyCode.H)) == false)
+                    {
+                        Atack();
 
-                    coolDown = Time.time + (1f / tiempoDeAtaque);
+                        coolDown = Time.time + (1f / tiempoDeAtaque);
+                    }
                 }
             }
 
@@ -99,6 +106,32 @@ public class Enemy_Combat : MonoBehaviour
                 puntoDeAtaque.transform.position = new Vector2(rb.transform.position.x - 1.725f, puntoDeAtaque.transform.position.y);
             }
         }
+
+        if (playerPos.GetComponent<Player_Controller>().vidaActual <= 0)
+        {
+            playerPos.GetComponent<Player_Controller>().texto.text = "0";
+
+            enemy.GetComponent<Animator>().SetBool("Jump", false);
+
+            enemy.GetComponent<Animator>().SetBool("Run", true);
+
+            enemy.GetComponent<Animator>().SetBool("Death", false);
+
+            enemy.transform.localScale = new Vector3(10, 10, 1);
+
+            enemy.GetComponent<Enemy_scale>().enabled = false;
+
+            rb.position = Vector2.MoveTowards(rb.position, victoryPos.transform.position, 5 * Time.deltaTime);
+
+            //rb.constraints = RigidbodyConstraints2D.FreezePositionY;
+
+            if (Vector2.Distance(rb.position, victoryPos.transform.position) <= 1f)
+            {
+                Invoke(nameof(Giro), 1f);
+
+                rb.position = new Vector2(rb.position.x, -2.692222f);
+            }
+        }
     }
 
     public void Atack()
@@ -107,23 +140,34 @@ public class Enemy_Combat : MonoBehaviour
 
         Collider2D[] hitenemies = Physics2D.OverlapCircleAll(puntoDeAtaque.position, attackRange, LayerDeEnemigo);
 
-        foreach (Collider2D enemy in hitenemies)
+        foreach (Collider2D player in hitenemies)
         {
-            //Debug.Log("El enemigo " + enemy.name + " ha sido golpeado");
+            Debug.Log("El enemigo " + player.name + " ha sido golpeado");
 
-            //enemy.GetComponent<Enemy_Controller>().Daño(puntosDeDaño);
+            player.GetComponent<Player_Controller>().DañoJugador(damagePoints);
 
-            //Debug.Log("Le quedan " + enemy.GetComponent<Enemy_Controller>().vidaActual + " puntos de vida");
+            player.GetComponent<Animator>().SetTrigger("Hurt");
 
-            //if (enemigo.GetComponent<Enemy_Controller>().vidaActual >= 20)
-            //{
-            //    StartCoroutine(Knockback(enemy, 0.35f));
-            //}
+            Debug.Log("Le quedan " + player.GetComponent<Player_Controller>().vidaActual + " puntos de vida");
 
-            //if (enemy.GetComponent<Enemy_Controller>().vidaActual <= 0)
-            //{
-            //    Debug.Log(enemy.name + " ha fallecido :(");
-            //}
+            if (player.GetComponent<Player_Controller>().vidaActual > 0 && player.transform.GetChild(1).gameObject.GetComponent<Identify_Player>().tangible == true)
+            {
+                StartCoroutine(KnockbackPlayer(player, 0.5f));
+            }
+
+            else if (player.GetComponent<Player_Controller>().vidaActual > 0 && player.transform.GetChild(1).gameObject.GetComponent<Identify_Player>().tangible == false)
+            {
+                //knockbackPlayer = false;
+
+                StartCoroutine(KnockbackPlayer(player, 0.5f));
+            }
+
+            else if (player.GetComponent<Player_Controller>().vidaActual <= 0)
+            {
+                Debug.Log(enemy.name + " ha fallecido :(");
+
+                knockbackPlayer = false;
+            }
         }
     }
 
@@ -143,62 +187,58 @@ public class Enemy_Combat : MonoBehaviour
     {
         currentLife -= damage;
 
-        //animator.SetBool("Run", false);
-
-        //animator.SetBool("Jump", false);
-
         animator.SetTrigger("Hurt");
 
         playerPos.GetComponent<Player_Combat>().knockBack = true;
 
         if (currentLife == 100)
         {
-            barLife.transform.GetChild(0).gameObject.SetActive(true);
-            barLife.transform.GetChild(1).gameObject.SetActive(false);
-            barLife.transform.GetChild(2).gameObject.SetActive(false);
-            barLife.transform.GetChild(3).gameObject.SetActive(false);
-            barLife.transform.GetChild(4).gameObject.SetActive(false);
-            barLife.transform.GetChild(5).gameObject.SetActive(false);
-        }
-
-        else if (currentLife >= 80)
-        {
-            barLife.transform.GetChild(0).gameObject.SetActive(false);
             barLife.transform.GetChild(1).gameObject.SetActive(true);
             barLife.transform.GetChild(2).gameObject.SetActive(false);
             barLife.transform.GetChild(3).gameObject.SetActive(false);
             barLife.transform.GetChild(4).gameObject.SetActive(false);
             barLife.transform.GetChild(5).gameObject.SetActive(false);
+            barLife.transform.GetChild(6).gameObject.SetActive(false);
         }
 
-        else if (currentLife >= 60)
+        else if (currentLife >= 80)
         {
-            barLife.transform.GetChild(0).gameObject.SetActive(false);
             barLife.transform.GetChild(1).gameObject.SetActive(false);
             barLife.transform.GetChild(2).gameObject.SetActive(true);
             barLife.transform.GetChild(3).gameObject.SetActive(false);
             barLife.transform.GetChild(4).gameObject.SetActive(false);
             barLife.transform.GetChild(5).gameObject.SetActive(false);
+            barLife.transform.GetChild(6).gameObject.SetActive(false);
         }
 
-        else if (currentLife >= 40)
+        else if (currentLife >= 60)
         {
-            barLife.transform.GetChild(0).gameObject.SetActive(false);
             barLife.transform.GetChild(1).gameObject.SetActive(false);
             barLife.transform.GetChild(2).gameObject.SetActive(false);
             barLife.transform.GetChild(3).gameObject.SetActive(true);
             barLife.transform.GetChild(4).gameObject.SetActive(false);
             barLife.transform.GetChild(5).gameObject.SetActive(false);
+            barLife.transform.GetChild(6).gameObject.SetActive(false);
         }
 
-        else if (currentLife >= 20)
+        else if (currentLife >= 40)
         {
-            barLife.transform.GetChild(0).gameObject.SetActive(false);
             barLife.transform.GetChild(1).gameObject.SetActive(false);
             barLife.transform.GetChild(2).gameObject.SetActive(false);
             barLife.transform.GetChild(3).gameObject.SetActive(false);
             barLife.transform.GetChild(4).gameObject.SetActive(true);
             barLife.transform.GetChild(5).gameObject.SetActive(false);
+            barLife.transform.GetChild(6).gameObject.SetActive(false);
+        }
+
+        else if (currentLife >= 20)
+        {
+            barLife.transform.GetChild(1).gameObject.SetActive(false);
+            barLife.transform.GetChild(2).gameObject.SetActive(false);
+            barLife.transform.GetChild(3).gameObject.SetActive(false);
+            barLife.transform.GetChild(4).gameObject.SetActive(false);
+            barLife.transform.GetChild(5).gameObject.SetActive(true);
+            barLife.transform.GetChild(6).gameObject.SetActive(false);
         }
 
         if (currentLife <= 0)
@@ -207,12 +247,12 @@ public class Enemy_Combat : MonoBehaviour
 
             Debug.Log("Ha muerto");
 
-            barLife.transform.GetChild(0).gameObject.SetActive(false);
             barLife.transform.GetChild(1).gameObject.SetActive(false);
             barLife.transform.GetChild(2).gameObject.SetActive(false);
             barLife.transform.GetChild(3).gameObject.SetActive(false);
             barLife.transform.GetChild(4).gameObject.SetActive(false);
-            barLife.transform.GetChild(5).gameObject.SetActive(true);
+            barLife.transform.GetChild(5).gameObject.SetActive(false);
+            barLife.transform.GetChild(6).gameObject.SetActive(true);
         }
     }
 
@@ -236,5 +276,21 @@ public class Enemy_Combat : MonoBehaviour
         yield return new WaitForSeconds(3.8f);
 
         Destroy(gameObject);
+    }
+
+    IEnumerator KnockbackPlayer(Collider2D player, float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        knockbackPlayer = false;
+    }
+
+    public void Giro()
+    {
+        enemy.transform.localScale = new Vector3(-10, 10, 1);
+
+        enemy.GetComponent<Animator>().SetBool("Run", false);
+
+        enemy.GetComponent<Animator>().SetBool("Jump", false);
     }
 }

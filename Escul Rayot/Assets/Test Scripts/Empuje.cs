@@ -25,27 +25,27 @@ public class Empuje : MonoBehaviour
         {
             cronometro += 1;
 
-            Debug.Log(cronometro);
+            //Debug.Log(cronometro);
         }
 
         if (empuje == false)
         {
             cronometro = 0f;
 
-            Debug.Log(cronometro);
+            //Debug.Log(cronometro);
         }
 
-        if (cronometro >= 5f)
+        if (cronometro >= 15f)
         {
             pinchazo.gameObject.SetActive(true);  
         }
 
-        else if (cronometro < 5f)
+        else if (cronometro < 15f)
         {
             pinchazo.gameObject.SetActive(false);
         }
 
-        if (player.GetComponent<Player_Controller>().vidaActual == 0)
+        if (player.GetComponent<Player_Controller>().vidaActual <= 0)
         {
             pinchazo.gameObject.SetActive(false);
 
